@@ -1,6 +1,7 @@
 import {Stream as StreamTransport} from "winston/lib/winston/transports";
 import {Duplex, Transform, TransformOptions} from "stream";
 import {TransportStreamOptions} from "winston-transport";
+import {MESSAGE} from 'triple-beam';
 
 export interface DuplexTransportOptions extends TransportStreamOptions {
     stream?: Duplex | TransformOptions
@@ -48,7 +49,7 @@ class DuplexTransport extends StreamTransport {
                 this.duplex.emit('log', {
                     message: msg,
                     name: this.name,
-                    [Symbol.for('message')]: msg,
+                    [MESSAGE]: msg,
                 });
             }
         } catch (e) {
