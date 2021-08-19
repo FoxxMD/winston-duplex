@@ -16,7 +16,8 @@ class DuplexTransport extends transports_1.Stream {
             stream = new stream_1.Transform({
                 transform(chunk, e, cb) {
                     cb(null, chunk);
-                }
+                },
+                objectMode: true,
             });
         }
         super(Object.assign(Object.assign({}, opts), { stream }));

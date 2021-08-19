@@ -24,7 +24,8 @@ class DuplexTransport extends StreamTransport {
             stream = new Transform({
                 transform(chunk, e, cb) {
                     cb(null, chunk)
-                }
+                },
+                objectMode: true,
             });
         }
         super({...opts, stream});
