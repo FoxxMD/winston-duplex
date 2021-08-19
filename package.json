@@ -1,0 +1,26 @@
+{
+  "name": "winston-duplex-transport",
+  "version": "0.1.0",
+  "description": "A winston transport to enable easy streaming",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "/dist"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=8"
+  },
+
+  "dependencies": {
+    "winston": "^3",
+    "winston-transport": "^4.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^16.6.2"
+  }
+}
