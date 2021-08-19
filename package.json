@@ -1,16 +1,17 @@
 {
-  "name": "winston-duplex-transport",
+  "name": "winston-duplex",
   "version": "0.1.0",
   "description": "A winston transport to enable easy streaming",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "repository": "https://github.com/FoxxMD/winston-duplex",
   "files": [
     "/dist"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "FoxxMD",
   "license": "MIT",
   "engines": {
     "node": ">=8"
