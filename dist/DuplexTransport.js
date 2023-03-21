@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const stream_1 = require("stream");
 const winston_transport_1 = __importDefault(require("winston-transport"));
 const triple_beam_1 = require("triple-beam");
+const os_1 = __importDefault(require("os"));
 class DuplexTransport extends winston_transport_1.default {
     constructor(opts) {
         const { stream: optStream, dump = false, name } = opts || {};
@@ -27,12 +28,36 @@ class DuplexTransport extends winston_transport_1.default {
         // @ts-ignore
         super(Object.assign(Object.assign({}, opts), { stream }));
         this.duplex = stream;
+        this.duplex.setMaxListeners(Infinity);
         this.name = name;
+        this.isObjectMode = this.duplex.writableObjectMode;
+        this.eol = opts.eol || os_1.default.EOL;
         if (dump) {
             // immediately dump data
             this.duplex.on('data', (_) => {
             });
         }
+    }
+    /**
+     * Core logging method exposed to Winston.
+     * @param {Object} info - TODO: add param description.
+     * @param {Function} callback - TODO: add param description.
+     * @returns {undefined}
+     */
+    log(info, callback) {
+        setImmediate(() => this.emit('logged', info));
+        if (this.isObjectMode) {
+            this.duplex.write(info);
+            if (callback) {
+                callback(); // eslint-disable-line callback-return
+            }
+            return;
+        }
+        this.duplex.write(`${info[triple_beam_1.MESSAGE]}${this.eol}`);
+        if (callback) {
+            callback(); // eslint-disable-line callback-return
+        }
+        return;
     }
     onStream(chunk) {
         try {
