@@ -1,6 +1,5 @@
-import {Stream as StreamTransport} from "winston/lib/winston/transports";
 import {Duplex, Transform, TransformOptions} from "stream";
-import {TransportStreamOptions} from "winston-transport";
+import Transport, {TransportStreamOptions} from "winston-transport";
 import {MESSAGE} from 'triple-beam';
 
 export interface DuplexTransportOptions extends TransportStreamOptions {
@@ -10,7 +9,7 @@ export interface DuplexTransportOptions extends TransportStreamOptions {
     name?: string,
 }
 
-class DuplexTransport extends StreamTransport {
+class DuplexTransport extends Transport {
     duplex: Duplex;
     name?: string;
 
@@ -29,6 +28,7 @@ class DuplexTransport extends StreamTransport {
                 objectMode: true,
             });
         }
+        // @ts-ignore
         super({...opts, stream});
         this.duplex = stream;
         this.name = name;

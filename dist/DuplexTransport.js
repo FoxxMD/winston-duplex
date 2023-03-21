@@ -1,8 +1,12 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const transports_1 = require("winston/lib/winston/transports");
 const stream_1 = require("stream");
-class DuplexTransport extends transports_1.Stream {
+const winston_transport_1 = __importDefault(require("winston-transport"));
+const triple_beam_1 = require("triple-beam");
+class DuplexTransport extends winston_transport_1.default {
     constructor(opts) {
         const { stream: optStream, dump = false, name } = opts || {};
         let stream;
@@ -20,6 +24,7 @@ class DuplexTransport extends transports_1.Stream {
                 objectMode: true,
             });
         }
+        // @ts-ignore
         super(Object.assign(Object.assign({}, opts), { stream }));
         this.duplex = stream;
         this.name = name;
@@ -39,7 +44,7 @@ class DuplexTransport extends transports_1.Stream {
                 this.duplex.emit('log', {
                     message: msg,
                     name: this.name,
-                    [Symbol.for('message')]: msg,
+                    [triple_beam_1.MESSAGE]: msg,
                 });
             }
         }
